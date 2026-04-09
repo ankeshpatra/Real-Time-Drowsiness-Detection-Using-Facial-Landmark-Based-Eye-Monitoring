@@ -62,7 +62,11 @@ def _play_alarm(path):
             time.sleep(0.1)
         pygame.mixer.music.stop()
         pygame.mixer.quit()
-    except Exception as e: print(f"[WARN] Alarm error: {e}")
+    except ImportError:
+        print("[WARN] Pygame not found. Sound alerts are disabled for CLI.")
+        print("       To enable sound, run: pip install pygame")
+    except Exception as e:
+        print(f"[WARN] Alarm error: {e}")
 
 def start_alarm(path):
     global _alarm_on

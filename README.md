@@ -149,6 +149,8 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+> **Note**: `pygame` is NOT included in `requirements.txt` because it is not needed for the Web Dashboard and can cause issues on some systems (like Streamlit Cloud). If you want sound alerts in the **CLI version**, install it manually: `pip install pygame`.
+
 ### 4. Download the Face Landmarker model
 
 ```bash
