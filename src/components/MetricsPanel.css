@@ -1,0 +1,35 @@
+.metric-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.metric {
+  background: var(--color-background-secondary, #f4f3ec);
+  border-radius: var(--border-radius-md, 8px);
+  padding: 10px 12px;
+}
+
+.metric .lbl {
+  font-size: 12px;
+  color: var(--color-text-secondary, #6b6375);
+}
+
+.metric .val {
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--color-text-primary, #08060d);
+  margin-top: 2px;
+}
+
+.metric .val.safe-col {
+  color: #0F6E56;
+}
+
+.metric .val.warn-col {
+  color: #854F0B;
+}
+
+.metric .val.danger-col {
+  color: #A32D2D;
+}

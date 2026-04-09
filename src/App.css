@@ -1,0 +1,90 @@
+/* ── App Layout ── */
+
+#root {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── Top Bar ── */
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.top-bar h1 {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.top-bar-right {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.fps-label {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+}
+
+.status-badge {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 14px;
+  border-radius: var(--border-radius-md);
+  transition: all 0.3s;
+  background: var(--color-background-secondary);
+  color: var(--color-text-secondary);
+  border: 0.5px solid var(--color-border-tertiary);
+}
+
+.status-badge.safe {
+  background: #E1F5EE;
+  color: #0F6E56;
+  border-color: #5DCAA5;
+}
+
+.status-badge.warning {
+  background: #FAEEDA;
+  color: #854F0B;
+  border-color: #EF9F27;
+}
+
+.status-badge.danger {
+  background: #FCEBEB;
+  color: #A32D2D;
+  border-color: #E24B4A;
+}
+
+/* ── Main Grid ── */
+
+.main-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 640px) {
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Shared Card ── */
+
+.card {
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  padding: 14px;
+  overflow: hidden;
+}
