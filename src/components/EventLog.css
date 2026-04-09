@@ -1,0 +1,26 @@
+.log-card {
+  max-height: 140px;
+  overflow-y: auto;
+}
+
+.log {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.log-entry {
+  font-size: 11px;
+  color: var(--color-text-secondary, #6b6375);
+  padding: 3px 0;
+  border-bottom: 0.5px solid var(--color-border-tertiary, #e5e4e7);
+}
+
+.log-entry.ev-warn {
+  color: #854F0B;
+}
+
+.log-entry.ev-alert {
+  color: #A32D2D;
+  font-weight: 500;
+}

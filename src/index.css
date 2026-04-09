@@ -1,0 +1,66 @@
+/* ── Global Reset & Design Tokens ── */
+
+:root {
+  --safe: #1D9E75;
+  --warn: #BA7517;
+  --danger: #E24B4A;
+  --safe-bg: #E1F5EE;
+  --warn-bg: #FAEEDA;
+  --danger-bg: #FCEBEB;
+
+  /* Fallback token values — used throughout components */
+  --color-text-primary: #08060d;
+  --color-text-secondary: #6b6375;
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f4f3ec;
+  --color-border-secondary: #d5d4d7;
+  --color-border-tertiary: #e5e4e7;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-text-primary: #f3f4f6;
+    --color-text-secondary: #9ca3af;
+    --color-background-primary: #1a1b23;
+    --color-background-secondary: #25262f;
+    --color-border-secondary: #3a3b45;
+    --color-border-tertiary: #2e303a;
+  }
+
+  body {
+    background: #111218;
+    color: var(--color-text-primary);
+  }
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  background: var(--color-background-primary);
+  color: var(--color-text-primary);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
