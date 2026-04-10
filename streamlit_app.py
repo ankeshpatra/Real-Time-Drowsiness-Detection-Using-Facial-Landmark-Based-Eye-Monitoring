@@ -41,6 +41,28 @@ GREEN = (0, 255, 0)
 RED = (0, 0, 255)
 WHITE = (255, 255, 255)
 
+
+def build_rtc_configuration():
+    """Build ICE server configuration with optional TURN support via env vars."""
+    ice_servers = [
+        {"urls": ["stun:stun.l.google.com:19302"]},
+        {"urls": ["stun:stun1.l.google.com:19302"]},
+    ]
+
+    turn_url = os.getenv("TURN_SERVER_URL", "").strip()
+    turn_username = os.getenv("TURN_USERNAME", "").strip()
+    turn_password = os.getenv("TURN_PASSWORD", "").strip()
+    if turn_url and turn_username and turn_password:
+        ice_servers.append(
+            {
+                "urls": [turn_url],
+                "username": turn_username,
+                "credential": turn_password,
+            }
+        )
+
+    return {"iceServers": ice_servers}
+
 # ══════════════════════════════════════════════════════════════════
 # Page configuration
 # ══════════════════════════════════════════════════════════════════
@@ -196,6 +218,7 @@ class SharedState:
         self._prev_time: float = time.time()
         self._prev_drowsy: bool = False
         self._landmarker = None
+        self.last_error: str = ""
 
     def get_landmarker(self):
         """Lazy-initialise the MediaPipe Face Landmarker (once)."""
@@ -233,10 +256,12 @@ def video_callback(frame: av.VideoFrame) -> av.VideoFrame:
     rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb)
 
-    landmarker = shared.get_landmarker()
     try:
+        landmarker = shared.get_landmarker()
         result = landmarker.detect(mp_image)
-    except Exception:
+        shared.last_error = ""
+    except Exception as e:
+        shared.last_error = str(e)
         return av.VideoFrame.from_ndarray(img, format="bgr24")
 
     ear = 0.0
@@ -340,11 +365,7 @@ with col_video:
         key="drowsiness-detector",
         mode=WebRtcMode.SENDRECV,
         video_frame_callback=video_callback,
-        rtc_configuration={
-            "iceServers": [
-                {"urls": ["stun:stun.l.google.com:19302"]}
-            ]
-        },
+        rtc_configuration=build_rtc_configuration(),
         media_stream_constraints={"video": True, "audio": False},
         async_processing=True,
     )
@@ -422,7 +443,7 @@ if ctx.state.playing:
     if st.session_state.start_time is None:
         st.session_state.start_time = time.time()
 
-    while True:
+    while ctx.state.playing:
         ear = shared.ear
         fc = shared.frame_counter
         alerts = shared.alert_count
@@ -484,7 +505,15 @@ if ctx.state.playing:
             )
             alarm_ph.empty()
 
+        if shared.last_error:
+            st.warning(f"Video processing error: {shared.last_error}")
+
         time.sleep(0.1)
 else:
     # Stream is not playing — reset timer
     st.session_state.start_time = None
+    st.info(
+        "If camera does not start on Streamlit Cloud, allow browser camera access. "
+        "If your network blocks direct WebRTC, set TURN_SERVER_URL, TURN_USERNAME, "
+        "and TURN_PASSWORD in app secrets/environment."
+    )

@@ -175,6 +175,16 @@ This opens a browser-based dashboard at `http://localhost:8501` with:
 - Adjustable EAR threshold and consecutive-frame sliders
 - Audio + visual alert when drowsiness is detected
 
+### Streamlit Cloud Notes
+
+- Use `runtime.txt` with `python-3.11` for best compatibility with MediaPipe/OpenCV wheels.
+- Use `opencv-python-headless` in `requirements.txt` for cloud/Linux deployment.
+- Camera access is from the **browser**, so you must allow camera permissions on the app URL.
+- If video does not connect in restricted networks, configure TURN credentials in app secrets/environment:
+      - `TURN_SERVER_URL`
+      - `TURN_USERNAME`
+      - `TURN_PASSWORD`
+
 ### CLI Version (OpenCV Window)
 
 ```bash
